@@ -1,0 +1,11 @@
+{
+    "_id" : ObjectId("5e888cf5283aef7289d88fd0"),
+    "name" : "Administrador",
+    "email" : "adm@g.com.br",
+    "login" : "adm",
+    "emailVerified" : false,
+    "password" : "123",
+    "provider" : "local",
+    "perfis" : "adm",
+    "_class" : "br.com.prodf.adm.model.User"
+}

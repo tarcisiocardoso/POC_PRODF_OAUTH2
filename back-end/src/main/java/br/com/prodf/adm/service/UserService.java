@@ -1,0 +1,49 @@
+package br.com.prodf.adm.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.prodf.adm.repository.UserRepository;
+import br.com.prodf.adm.model.User;
+
+@Service
+public class UserService implements IUserService{
+
+    @Autowired
+    UserRepository repository;
+    
+    @Override
+    public User create(User o) {
+        return repository.save(o);
+    }
+
+    @Override
+    public Optional<User> findById(String id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        return repository.findByLogin(login);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public User update(User o) {
+        return repository.save(o);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+
+}
