@@ -4,6 +4,12 @@ Prova de conceito
 
 ## Configurar o ambiente
 
+Fazer clone da poc
+
+```bash
+git clone https://github.com/tarcisiocardoso/POC_PRODF_OAUTH2
+```
+
 Entre no diretório front-end e instale as dependências do react
 
 ```bash
