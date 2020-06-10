@@ -27,9 +27,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
-        System.out.println(1);
+        System.out.println(">>CustomOAuth2UserService<< 1");
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
-        System.out.println(2);
+        System.out.println(">>CustomOAuth2UserService<< 2");
         try {
             
             return processOAuth2User(oAuth2UserRequest, oAuth2User);
@@ -42,14 +42,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
+        System.out.println(">>>processOAuth2User<<< 1");
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
+            System.out.println(">>>processOAuth2User<<< 2");
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
+        System.out.println(">>>processOAuth2User<<< 3");
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
         if(userOptional.isPresent()) {
+            System.out.println(">>>processOAuth2User<<< 4");
             user = userOptional.get();
             if(!user.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
@@ -58,9 +62,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             }
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {
+            System.out.println(">>>processOAuth2User<<< 5");
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
 
+        System.out.println(">>>processOAuth2User<<< 6");
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 

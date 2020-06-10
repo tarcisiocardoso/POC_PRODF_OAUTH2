@@ -19,7 +19,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException, ServletException {
 
-System.out.println(">>>RestAuthenticationEntryPoint<<<"); 
+        System.out.println(">>>RestAuthenticationEntryPoint<<<"); 
 
         String login = httpServletRequest.getParameter("login");
         System.out.println("--------------" +login );

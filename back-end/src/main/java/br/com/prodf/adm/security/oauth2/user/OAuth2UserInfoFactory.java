@@ -8,6 +8,7 @@ import java.util.Map;
 public class OAuth2UserInfoFactory {
 
     public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
+        System.out.println(">>>registrationId<<<"+ registrationId );
         if(registrationId.equalsIgnoreCase(AuthProvider.google.toString())) {
             return new GoogleOAuth2UserInfo(attributes);
         } else if (registrationId.equalsIgnoreCase(AuthProvider.facebook.toString())) {
