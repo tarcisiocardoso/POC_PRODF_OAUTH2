@@ -50,7 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             () -> new ResourceNotFoundException("User", "id", id)
         );
 
-        System.out.println(">>CustomUserDetailsService<< 2");
+        System.out.println(">>CustomUserDetailsService<< 2"+ user.getName());
         // User user = userRepository.findById(id);
         // if( user == null ){
         //     throw new ResourceNotFoundException("User", "id", id);

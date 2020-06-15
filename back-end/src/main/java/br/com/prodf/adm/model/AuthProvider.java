@@ -5,5 +5,5 @@ public enum  AuthProvider {
     facebook,
     google,
     github,
-    customClient
+    customClient,
 }
