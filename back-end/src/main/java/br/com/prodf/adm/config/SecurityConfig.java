@@ -1,10 +1,5 @@
 package br.com.prodf.adm.config;
 
-import br.com.prodf.adm.security.*;
-import br.com.prodf.adm.security.oauth2.CustomOAuth2UserService;
-import br.com.prodf.adm.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import br.com.prodf.adm.security.oauth2.OAuth2AuthenticationFailureHandler;
-import br.com.prodf.adm.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +17,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.prodf.adm.security.CustomUserDetailsService;
+import br.com.prodf.adm.security.RestAuthenticationEntryPoint;
+import br.com.prodf.adm.security.TokenAuthenticationFilter;
+import br.com.prodf.adm.security.jwt.JwtAuthenticationEntryPoint;
+import br.com.prodf.adm.security.oauth2.CustomOAuth2UserService;
+import br.com.prodf.adm.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import br.com.prodf.adm.security.oauth2.OAuth2AuthenticationFailureHandler;
+import br.com.prodf.adm.security.oauth2.OAuth2AuthenticationSuccessHandler;
+
 
 @Configuration
 @EnableWebSecurity
@@ -32,8 +36,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+//    @Autowired
+//    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
@@ -46,6 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // @Autowired
     // private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
@@ -62,11 +70,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder());
+//    @Override
+//    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//        authenticationManagerBuilder
+//                .userDetailsService(customUserDetailsService)
+//                .passwordEncoder(passwordEncoder());
+//    }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+      .ldapAuthentication()
+        .userDnPatterns("uid={0},ou=people")
+        .groupSearchBase("ou=groups")
+        .contextSource()
+          .url("ldap://localhost:8389/dc=springframework,dc=org")
+          .and()
+        .passwordCompare()
+          .passwordEncoder(new BCryptPasswordEncoder())
+          .passwordAttribute("userPassword");
     }
 
     @Bean
@@ -97,7 +118,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                     .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+//                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                	.authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                     .and()
                 .authorizeRequests()
                     .antMatchers("/",

@@ -40,15 +40,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        System.out.println(1);
+        System.out.println("AuthController: 1");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.login, loginRequest.password )
         );
-        System.out.println(authentication);
+        System.out.println("AuthController: "+authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(2);
+        System.out.println("AuthController: "+2);
         String token = tokenProvider.createToken(authentication);
-        System.out.println(3);        
+        System.out.println("AuthController: "+3);        
         return ResponseEntity.ok(new AuthResponse(token));
     }
 

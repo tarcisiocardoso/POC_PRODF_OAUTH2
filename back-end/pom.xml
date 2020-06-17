@@ -7,8 +7,8 @@
 		<version>2.2.4.RELEASE</version>
 		<relativePath /> 
 	</parent>
-	<groupId>br.com.farm</groupId>
-	<artifactId>openFarm</artifactId>
+	<groupId>br.com.prodf</groupId>
+	<artifactId>prodfAdm</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>openFarm</name>
 	<description>Projeto open farm para ajudar produtores e agricultores nos projetos em agropecuária</description>
@@ -88,6 +88,19 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>org.springframework.ldap</groupId>
+			<artifactId>spring-ldap-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.unboundid</groupId>
+			<artifactId>unboundid-ldapsdk</artifactId>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>js-cookie</artifactId>
 			<version>2.1.0</version>
@@ -96,7 +109,7 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
-			<version>0.5.1</version>
+			<version>0.9.1</version>
 		</dependency>
 
 		<dependency>

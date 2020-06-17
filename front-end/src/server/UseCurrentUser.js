@@ -37,7 +37,12 @@ function useCurrentUser() {
                     console.log(">>>NÃO pegando do logalstorage<<<");
                     return request({
                         url: API_BASE_URL + "/user/me",
-                        method: 'GET'
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Accept: 'application/json',
+                            'Authorization': `Bearer ${localStorage.accessToken}`
+                        }
                     }).then(response => {
                         console.log(response.status);
                         if (response.status === 401) {

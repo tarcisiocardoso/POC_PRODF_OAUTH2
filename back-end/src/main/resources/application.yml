@@ -14,6 +14,12 @@ spring:
     jpa:
       database-platform: org.hibernate.dialect.H2Dialect
       generate-ddl: true
+
+    ldap:
+        embedded:
+            ldif: "classpath:test-server.ldif"
+            base-dn: "dc=springframework,dc=org"
+            port: 8389
     security:
       oauth2:
         client:
@@ -59,6 +65,9 @@ spring:
               user-info-uri: http://localhost:8081/auth/user/me
               user-name-attribute: name
 
+jwt:
+    secret: 926D96C90030DD58429D2751AC1BDBBC
+    jwtExpirationInMs: 864000000
   
 app:
   auth:
@@ -71,5 +80,6 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
+      - http://localhost/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
